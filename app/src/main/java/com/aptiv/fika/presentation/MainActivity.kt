@@ -3,8 +3,6 @@ package com.aptiv.fika.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -22,11 +20,9 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -79,7 +75,9 @@ fun TabLayout(tabData: List<Pair<String, ImageVector>>, pagerState: PagerState) 
                 color = Color.White
             )
         },
-        modifier = Modifier.fillMaxWidth().fillMaxHeight(0.1f)
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(0.1f)
     ) {
         tabData.forEachIndexed { index, pair ->
             Tab(
@@ -97,25 +95,15 @@ fun TabContent(tabData: List<Pair<String, ImageVector>>, pagerState: PagerState)
     HorizontalPager(state = pagerState) { index ->
         when (index) {
             0 -> {
-                HomeScreen()
+                SetHomeScreen("Sisi")
             }
             1 -> {
-                HomeScreen()
+                SetFikaList()
             }
         }
     }
 }
 
-@Composable
-fun HomeScreen() {
-    Column(
-        Modifier.fillMaxSize().background(Color.Transparent),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = "Home", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-    }
-}
 
 private fun getTabList(): List<Pair<String, ImageVector>> {
     return listOf(
