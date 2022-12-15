@@ -1,4 +1,4 @@
-package com.aptiv.fika.ui.theme
+package com.aptiv.fika.presentation.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
