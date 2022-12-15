@@ -1,4 +1,4 @@
-package com.aptiv.fika
+package com.aptiv.fika.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,7 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.aptiv.fika.ui.theme.FikaTheme
+import com.aptiv.fika.presentation.theme.FikaTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

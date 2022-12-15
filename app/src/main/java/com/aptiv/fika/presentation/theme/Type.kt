@@ -1,4 +1,4 @@
-package com.aptiv.fika.ui.theme
+package com.aptiv.fika.presentation.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
