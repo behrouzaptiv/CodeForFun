@@ -27,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.aptiv.fika.R
+import com.aptiv.fika.app.DateUtils
 import com.aptiv.fika.presentation.viewmodel.PersonViewModel
 
 @Composable
@@ -58,8 +59,9 @@ fun SetFikaList(personViewModel: PersonViewModel = hiltViewModel()) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    var imageIndex = (0..7).random()
                     Image(
-                        painter = painterResource(id = imageList[index]),
+                        painter = painterResource(id = imageList[imageIndex]),
                         contentDescription = null,
                         modifier = Modifier.size(130.dp).padding(8.dp).weight(0.5f),
                         contentScale = ContentScale.Fit
@@ -75,8 +77,8 @@ fun SetFikaList(personViewModel: PersonViewModel = hiltViewModel()) {
                         )
 
                         val date = if (resultItem.eventList.isNotEmpty()) {
-                            resultItem.eventList.first().date.toString()
-                        } else "12/12/2022"
+                           DateUtils.toSimpleString(resultItem.eventList.first().date)
+                        } else "12 Dec 2022"
 
                         Log.d(
                             "TAG",

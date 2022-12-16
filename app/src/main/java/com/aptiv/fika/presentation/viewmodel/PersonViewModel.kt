@@ -89,6 +89,20 @@ class PersonViewModel @Inject constructor(
 
     @VisibleForTesting
     internal fun addPerson(name: String) = viewModelScope.launch {
-        addPerson.invoke(Person(name = name))
+       val isPersonAdded = addPerson.invoke(Person(name = name))
+        getPersonList()
+        when(isPersonAdded) {
+            is Result.Loading -> {
+                _loadingState.value = true
+            }
+            is Result.Success -> {
+                _loadingState.value = false
+                getPersonList()
+                getPersonEventList()
+            }
+            is Result.Error -> {
+                _loadingState.value = false
+            }
+        }
     }
 }

@@ -16,6 +16,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import java.time.LocalDateTime
 import java.util.Date
 import javax.inject.Inject
 
@@ -24,18 +25,19 @@ class LocalDataSource @Inject constructor (private val organizerDao: OrganizerDa
                                            private val dispatcher: CoroutineDispatcher,
                                            private val mapper: OrganiserMapper,
                                            private val personMapper: PersonMapper,
-                                           private val personAndEventMapper: PersonAndEventMapper) : DataSource {
+                                             private val personAndEventMapper: PersonAndEventMapper) : DataSource {
 
+
+    private var localDate : Date = Date()
     private val TAG = "LocalDataSource"
     override fun getAllPerson(): Flow<Result<List<Person>>> {
+
         return flow <Result<List<Person>>>{
             addPerson(Person(1, "John"))
             addPerson(Person(2, "Alex"))
-            addPerson(Person(3, "ABC"))
-            addPerson(Person(4, "PQr"))
-            assignFika(Person(1, "John"), Event(1, Date()))
-            assignFika(Person(2, "Alex"), Event(2, Date()))
-            try {
+            addPerson(Person(3, "Sree"))
+            addPerson(Person(4, "Vinod"))
+                      try {
                 val personList = organizerDao.getAll()
                     .map {
                         personMapper.mapFromEntity(it)
@@ -76,6 +78,11 @@ class LocalDataSource @Inject constructor (private val organizerDao: OrganizerDa
     override suspend fun addPerson(person: Person): Result<Boolean> {
         return try {
             val isAdded = organizerDao.insertAll(mapper.mapFromEntity(person))
+            //localDate.
+
+val localDateTime =             LocalDateTime.from(localDate.toInstant()).plusDays(7);
+            localDate =   java.sql.Date.valueOf(localDateTime.toString())
+            assignFika(person, Event(1, Date()))
             Log.d(TAG, "addPerson()  returned isAdded $isAdded")
             Result.Success(true)
         } catch (e: Exception) {
