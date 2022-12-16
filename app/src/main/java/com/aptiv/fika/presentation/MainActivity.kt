@@ -41,7 +41,7 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import dagger.hilt.android.AndroidEntryPoint
-
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -67,8 +67,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun MainScreen( personViewModel: PersonViewModel = hiltViewModel()) {
-
+fun MainScreen(personViewModel: PersonViewModel = hiltViewModel()) {
     val result = personViewModel.state.collectAsState()
     val status = personViewModel.loadingState.collectAsState()
 
@@ -94,14 +93,12 @@ fun TabLayout(tabData: List<Pair<String, ImageVector>>, pagerState: PagerState) 
                 color = Color.White
             )
         },
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(0.1f)
+        modifier = Modifier.fillMaxWidth().fillMaxHeight(0.1f)
     ) {
         tabData.forEachIndexed { index, pair ->
             Tab(
                 selected = pagerState.currentPage == index,
-                onClick = { /*TODO*/ },
+                onClick = { scope.launch { pagerState.animateScrollToPage(index) } },
                 text = { Text(text = pair.first, fontSize = 28.sp) }
             )
         }
@@ -126,9 +123,7 @@ fun TabContent(tabData: List<Pair<String, ImageVector>>, pagerState: PagerState)
 @Composable
 fun HomeScreen() {
     Column(
-        Modifier
-            .fillMaxSize()
-            .background(Color.Transparent),
+        Modifier.fillMaxSize().background(Color.Transparent),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
