@@ -3,6 +3,9 @@ package com.aptiv.fika.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -19,23 +22,35 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.aptiv.fika.presentation.theme.FikaTheme
+import com.aptiv.fika.presentation.viewmodel.PersonViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private val viewModel: PersonViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             FikaTheme {
                 // A surface container using the 'background' color from the theme
@@ -43,7 +58,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MainScreen()
+                    MainScreen(viewModel)
                 }
             }
         }
@@ -52,7 +67,11 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun MainScreen() {
+fun MainScreen( personViewModel: PersonViewModel = hiltViewModel()) {
+
+    val result = personViewModel.state.collectAsState()
+    val status = personViewModel.loadingState.collectAsState()
+
     val tabData = getTabList()
     val pagerState = rememberPagerState(pageCount = tabData.size)
     Column(modifier = Modifier.fillMaxSize()) {
@@ -104,6 +123,18 @@ fun TabContent(tabData: List<Pair<String, ImageVector>>, pagerState: PagerState)
     }
 }
 
+@Composable
+fun HomeScreen() {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(Color.Transparent),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Home", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+    }
+}
 
 private fun getTabList(): List<Pair<String, ImageVector>> {
     return listOf(

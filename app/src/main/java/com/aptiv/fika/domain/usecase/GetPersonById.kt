@@ -8,6 +8,6 @@ import com.aptiv.fika.domain.extension.Result
 class GetPersonById @Inject constructor(
     private val repository: Repository
 ) {
-    operator fun invoke(id: Int):  Result<Person> =
+    suspend operator fun invoke(id: Int):  Result<Person> =
         repository.getPersonById(id)
 }
