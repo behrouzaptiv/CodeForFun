@@ -1,6 +1,6 @@
 package com.aptiv.fika.domain.entity
 
 data class Person(
-    val id : Int,
+    var id : Int = 0,
     val name: String
 )

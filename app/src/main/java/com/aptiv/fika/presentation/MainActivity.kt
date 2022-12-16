@@ -76,7 +76,7 @@ fun MainScreen( personViewModel: PersonViewModel = hiltViewModel()) {
     val pagerState = rememberPagerState(pageCount = tabData.size)
     Column(modifier = Modifier.fillMaxSize()) {
         TabLayout(tabData, pagerState)
-        TabContent(tabData, pagerState)
+        TabContent(personViewModel, tabData, pagerState)
     }
 }
 
@@ -110,11 +110,11 @@ fun TabLayout(tabData: List<Pair<String, ImageVector>>, pagerState: PagerState) 
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun TabContent(tabData: List<Pair<String, ImageVector>>, pagerState: PagerState) {
+fun TabContent(viewModel: PersonViewModel, tabData: List<Pair<String, ImageVector>>, pagerState: PagerState) {
     HorizontalPager(state = pagerState) { index ->
         when (index) {
             0 -> {
-                SetHomeScreen("Sisi")
+                SetHomeScreen("Sisi", viewModel)
             }
             1 -> {
                 SetFikaList()
