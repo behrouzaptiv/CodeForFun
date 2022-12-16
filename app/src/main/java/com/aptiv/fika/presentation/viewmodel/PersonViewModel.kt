@@ -4,8 +4,10 @@ import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aptiv.fika.domain.entity.Person
 import com.aptiv.fika.domain.entity.PersonAndEvent
 import com.aptiv.fika.domain.extension.Result
+import com.aptiv.fika.domain.usecase.AddPerson
 import com.aptiv.fika.domain.usecase.AssignFika
 import com.aptiv.fika.domain.usecase.GetAllPerson
 import com.aptiv.fika.domain.usecase.GetPersonAndEvent
@@ -23,6 +25,7 @@ class PersonViewModel @Inject constructor(
     private val getPersonById: GetPersonById,
     private val removePerson: RemovePerson,
     private val assignFika: AssignFika,
+    private val addPerson: AddPerson,
     private val getPersonAndEvent: GetPersonAndEvent
 ): ViewModel() {
 
@@ -84,4 +87,8 @@ class PersonViewModel @Inject constructor(
         }
     }
 
+    @VisibleForTesting
+    internal fun addPerson(name: String) = viewModelScope.launch {
+        addPerson.invoke(Person(name = name))
+    }
 }
